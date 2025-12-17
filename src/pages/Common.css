@@ -1388,3 +1388,675 @@ select.input-modern {
 .settings-form button[type="submit"] {
   margin-top: 24px;
 }
+
+/* View Modal Styles */
+.view-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.view-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.view-detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.view-detail-item label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.view-detail-item p {
+  font-size: 15px;
+  color: #1a1a2e;
+  font-weight: 500;
+  margin: 0;
+}
+
+.view-detail-item .price-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #6c5ce7;
+}
+
+@media (max-width: 768px) {
+  .view-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Settings Page Styles */
+.settings-card-modern {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 32px;
+  max-width: 900px;
+}
+
+.settings-card-modern form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group-modern label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-actions-modern {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  .settings-card-modern {
+    padding: 20px;
+  }
+}
+
+/* Enhanced Mobile Responsive Design */
+@media (max-width: 992px) {
+  .modern-page-container {
+    padding: 16px;
+  }
+  
+  .header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Tables */
+  .modern-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .modern-table {
+    min-width: 600px;
+  }
+  
+  /* Forms */
+  .form-row-modern {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Modals */
+  .modal-content-modern {
+    width: 95%;
+    padding: 0;
+  }
+  
+  .modal-header,
+  .modal-body {
+    padding: 16px;
+  }
+  
+  /* Buttons */
+  .header-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .header-actions button {
+    width: 100%;
+  }
+  
+  /* Search */
+  .search-filter-bar {
+    flex-direction: column;
+  }
+  
+  .search-input-modern,
+  .filter-actions {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Typography */
+  h1 {
+    font-size: 20px !important;
+  }
+  
+  h2 {
+    font-size: 18px !important;
+  }
+  
+  h3 {
+    font-size: 16px !important;
+  }
+  
+  /* Spacing */
+  .modern-page-container {
+    padding: 12px;
+  }
+  
+  /* Cards */
+  .metric-card,
+  .chart-card,
+  .project-card {
+    padding: 12px;
+  }
+  
+  /* Tables */
+  .modern-table {
+    font-size: 11px;
+  }
+  
+  .modern-table th,
+  .modern-table td {
+    padding: 8px 6px;
+  }
+  
+  /* Action Buttons */
+  .action-icon-btn {
+    width: 28px;
+    height: 28px;
+  }
+  
+  /* Status Pills */
+  .status-pill {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+}
+
+/* Landscape Mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+  .modal-content-modern {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn-primary-modern,
+  .btn-secondary,
+  .action-icon-btn,
+  .tab-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .modern-table tbody tr {
+    cursor: default;
+  }
+}
+
+/* Complete Mobile Responsive Fix for All Pages */
+
+/* Products, Clients, Services - Mobile Responsive */
+@media (max-width: 992px) {
+  .modern-page-container {
+    padding: 16px;
+  }
+  
+  .modern-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .header-left {
+    width: 100%;
+  }
+  
+  .header-actions {
+    width: 100%;
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .header-actions button {
+    flex: 1;
+  }
+  
+  /* Tabs */
+  .tabs-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .tabs-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Search and Filters */
+  .search-filter-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .search-input-modern {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .filter-actions {
+    width: 100%;
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .filter-actions select,
+  .filter-actions button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Page Container */
+  .modern-page-container {
+    padding: 12px;
+  }
+  
+  /* Header */
+  .modern-header h1 {
+    font-size: 22px;
+  }
+  
+  .subtitle {
+    font-size: 13px;
+  }
+  
+  .page-icon {
+    width: 42px;
+    height: 42px;
+  }
+  
+  /* Buttons */
+  .btn-primary-modern,
+  .btn-secondary {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  /* Tabs */
+  .tab-btn {
+    font-size: 13px;
+    padding: 10px 16px;
+    white-space: nowrap;
+  }
+  
+  .tab-count {
+    font-size: 11px;
+  }
+  
+  /* Tables */
+  .modern-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .modern-table {
+    min-width: 700px;
+    font-size: 12px;
+  }
+  
+  .modern-table th,
+  .modern-table td {
+    padding: 10px 8px;
+  }
+  
+  .product-info {
+    gap: 8px;
+  }
+  
+  .product-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .product-name {
+    font-size: 13px;
+  }
+  
+  .product-desc {
+    font-size: 11px;
+  }
+  
+  /* Action Buttons */
+  .action-buttons-modern {
+    gap: 4px;
+  }
+  
+  .action-icon-btn {
+    width: 28px;
+    height: 28px;
+  }
+  
+  /* Status Pills */
+  .status-pill {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  
+  /* Modals */
+  .modal-content-modern {
+    width: 95%;
+    max-height: 85vh;
+  }
+  
+  .modal-header h2 {
+    font-size: 18px;
+  }
+  
+  .modal-body {
+    padding: 16px;
+  }
+  
+  /* Forms */
+  .form-row-modern {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .form-group-modern {
+    margin-bottom: 16px;
+  }
+  
+  .input-modern {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+  
+  /* View Details Grid */
+  .view-details-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Extra Small Mobile */
+  .modern-page-container {
+    padding: 10px;
+  }
+  
+  /* Header */
+  .modern-header {
+    gap: 12px;
+  }
+  
+  .modern-header h1 {
+    font-size: 18px;
+  }
+  
+  .subtitle {
+    font-size: 12px;
+  }
+  
+  .page-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  /* Buttons */
+  .btn-primary-modern,
+  .btn-secondary {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .header-actions button {
+    width: 100%;
+  }
+  
+  /* Tabs */
+  .tab-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  
+  /* Search */
+  .search-input-modern {
+    padding: 8px 12px;
+  }
+  
+  .search-input-modern input {
+    font-size: 13px;
+  }
+  
+  /* Filter Actions */
+  .filter-actions {
+    flex-direction: column;
+  }
+  
+  .date-range,
+  .filter-btn {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  /* Tables */
+  .modern-table {
+    min-width: 600px;
+    font-size: 11px;
+  }
+  
+  .modern-table th,
+  .modern-table td {
+    padding: 8px 6px;
+  }
+  
+  /* Action Buttons */
+  .action-icon-btn {
+    width: 26px;
+    height: 26px;
+  }
+  
+  /* Status Pills */
+  .status-pill {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  
+  /* Modals */
+  .modal-content-modern {
+    width: 98%;
+    max-height: 90vh;
+  }
+  
+  .modal-header {
+    padding: 12px;
+  }
+  
+  .modal-header h2 {
+    font-size: 16px;
+  }
+  
+  .modal-body {
+    padding: 12px;
+  }
+  
+  .modal-footer-modern {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-cancel-modern,
+  .btn-submit-modern {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  /* Forms */
+  .form-group-modern label {
+    font-size: 12px;
+  }
+  
+  .input-modern {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+  
+  /* Empty State */
+  .empty-state-modern {
+    padding: 40px 16px;
+  }
+  
+  .empty-state-modern h3 {
+    font-size: 16px;
+  }
+  
+  .empty-state-modern p {
+    font-size: 13px;
+  }
+}
+
+/* Landscape Mobile Optimization */
+@media (max-width: 896px) and (orientation: landscape) {
+  .modal-content-modern {
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+  
+  .modern-page-container {
+    padding: 12px;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  .btn-primary-modern,
+  .btn-secondary,
+  .action-icon-btn,
+  .tab-btn,
+  .filter-btn {
+    min-height: 44px;
+  }
+  
+  .nav-item {
+    min-height: 48px;
+  }
+  
+  /* Remove hover effects on touch */
+  .modern-table tbody tr:hover {
+    background: transparent;
+  }
+  
+  /* Better tap feedback */
+  .btn-primary-modern:active,
+  .btn-secondary:active,
+  .action-icon-btn:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Mobile Card-Based Table Layout (Vertical Scroll) */
+@media (max-width: 768px) {
+  /* Hide table on mobile, show card layout */
+  .modern-table-container {
+    overflow-x: visible;
+  }
+  
+  .modern-table {
+    display: block;
+    min-width: auto;
+  }
+  
+  .modern-table thead {
+    display: none;
+  }
+  
+  .modern-table tbody {
+    display: block;
+  }
+  
+  .modern-table tbody tr {
+    display: block;
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+  }
+  
+  .modern-table tbody tr:hover {
+    background: white;
+  }
+  
+  .modern-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border: none;
+    font-size: 13px;
+  }
+  
+  .modern-table tbody td:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  /* Add labels before each cell */
+  .modern-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #666;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    margin-right: 12px;
+  }
+  
+  /* Product info styling for mobile */
+  .modern-table tbody td .product-info {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* Action buttons for mobile */
+  .modern-table tbody td .action-buttons-modern {
+    margin-left: auto;
+  }
+  
+  /* Status pills */
+  .modern-table tbody td .status-pill {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .modern-table tbody tr {
+    padding: 12px;
+  }
+  
+  .modern-table tbody td {
+    font-size: 12px;
+    padding: 6px 0;
+  }
+  
+  .modern-table tbody td::before {
+    font-size: 11px;
+  }
+}

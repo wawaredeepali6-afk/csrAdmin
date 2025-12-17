@@ -37,53 +37,65 @@ const Analytics = () => {
   const COLORS = ['#16c79a', '#3498db', '#f39c12', '#9b59b6', '#e74c3c'];
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <div>
-          <h1>Analytics & Reports</h1>
-          <p className="page-subtitle">Business insights and performance metrics</p>
+    <div className="modern-page-container">
+      {/* Header Section */}
+      <div className="modern-header">
+        <div className="header-left">
+          <div className="page-icon" style={{ background: '#6c5ce7' }}>
+            <TrendingUp size={24} />
+          </div>
+          <div>
+            <h1>Analytics & Reports</h1>
+            <p className="subtitle">Business insights and performance metrics</p>
+          </div>
         </div>
       </div>
 
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon" style={{ background: '#16c79a20', color: '#16c79a' }}>
-            <DollarSign size={24} />
+      {/* Stats Section */}
+      <div className="metrics-section">
+        <div className="metrics-grid">
+          <div className="metric-card">
+            <div className="metric-icon" style={{ background: '#d4f4dd', color: '#16c79a' }}>
+              <DollarSign size={24} />
+            </div>
+            <div className="metric-content">
+              <p className="metric-label">Total Revenue</p>
+              <h3 className="metric-value">₹32.8L</h3>
+              <span className="metric-change">+18% from last quarter</span>
+            </div>
           </div>
-          <div className="stat-content">
-            <p className="stat-label">Total Revenue</p>
-            <h3 className="stat-value">₹32.8L</h3>
-            <span className="stat-change">+18% from last quarter</span>
+          
+          <div className="metric-card">
+            <div className="metric-icon" style={{ background: '#dbeafe', color: '#3498db' }}>
+              <Package size={24} />
+            </div>
+            <div className="metric-content">
+              <p className="metric-label">Products Sold</p>
+              <h3 className="metric-value">248</h3>
+              <span className="metric-change">+12% from last quarter</span>
+            </div>
           </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon" style={{ background: '#3498db20', color: '#3498db' }}>
-            <Package size={24} />
+          
+          <div className="metric-card">
+            <div className="metric-icon" style={{ background: '#fef3c7', color: '#f39c12' }}>
+              <TrendingUp size={24} />
+            </div>
+            <div className="metric-content">
+              <p className="metric-label">Avg Order Value</p>
+              <h3 className="metric-value">₹1.32L</h3>
+              <span className="metric-change">+8% from last quarter</span>
+            </div>
           </div>
-          <div className="stat-content">
-            <p className="stat-label">Products Sold</p>
-            <h3 className="stat-value">248</h3>
-            <span className="stat-change">+12% from last quarter</span>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon" style={{ background: '#f39c1220', color: '#f39c12' }}>
-            <TrendingUp size={24} />
-          </div>
-          <div className="stat-content">
-            <p className="stat-label">Avg Order Value</p>
-            <h3 className="stat-value">₹1.32L</h3>
-            <span className="stat-change">+8% from last quarter</span>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon" style={{ background: '#9b59b620', color: '#9b59b6' }}>
-            <Users size={24} />
-          </div>
-          <div className="stat-content">
-            <p className="stat-label">Active Customers</p>
-            <h3 className="stat-value">89</h3>
-            <span className="stat-change">+15% from last quarter</span>
+          
+          <div className="metric-card">
+            <div className="metric-icon" style={{ background: '#ede9fe', color: '#9b59b6' }}>
+              <Users size={24} />
+            </div>
+            <div className="metric-content">
+              <p className="metric-label">Active Customers</p>
+              <h3 className="metric-value">89</h3>
+              <span className="metric-change">+15% from last quarter</span>
+            </div>
           </div>
         </div>
       </div>

@@ -134,47 +134,90 @@ const Projects = () => {
   };
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <div>
-          <h1>
-            <FolderKanban size={32} />
-            Projects Management
-          </h1>
-          <p className="page-subtitle">Track and manage all industrial projects</p>
+    <div className="modern-page-container">
+      {/* Header Section */}
+      <div className="modern-header">
+        <div className="header-left">
+          <div className="page-icon">
+            <FolderKanban size={24} />
+          </div>
+          <div>
+            <h1>Projects Management</h1>
+            <p className="subtitle">Track and manage all industrial projects</p>
+          </div>
         </div>
-        <button className="primary-btn" onClick={() => setShowModal(true)}>
-          <Plus size={20} />
-          New Project
-        </button>
-      </div>
-
-      <div className="stats-row">
-        <div className="stat-box" style={{ borderLeftColor: '#1a237e' }}>
-          <h3>{statusCounts.all}</h3>
-          <p>Total Projects</p>
-        </div>
-        <div className="stat-box" style={{ borderLeftColor: '#2196f3' }}>
-          <h3>{statusCounts.planning}</h3>
-          <p>Planning</p>
-        </div>
-        <div className="stat-box" style={{ borderLeftColor: '#ff9800' }}>
-          <h3>{statusCounts.ongoing}</h3>
-          <p>Ongoing</p>
-        </div>
-        <div className="stat-box" style={{ borderLeftColor: '#4caf50' }}>
-          <h3>{statusCounts.completed}</h3>
-          <p>Completed</p>
-        </div>
-        <div className="stat-box" style={{ borderLeftColor: '#f44336' }}>
-          <h3>{statusCounts['on-hold']}</h3>
-          <p>On Hold</p>
+        <div className="header-actions">
+          <button className="btn-primary-modern" onClick={() => setShowModal(true)}>
+            <Plus size={18} />
+            New Project
+          </button>
         </div>
       </div>
 
-      <div className="filters-section">
-        <div className="search-box">
-          <Search size={20} />
+      {/* Stats Section */}
+      <div className="metrics-section">
+        <div className="metrics-grid" style={{ gridTemplateColumns: 'repeat(5, 1fr)' }}>
+          <div className="metric-card">
+            <div className="metric-icon" style={{ background: '#e3f2fd', color: '#1a237e' }}>
+              <FolderKanban size={24} />
+            </div>
+            <div className="metric-content">
+              <p className="metric-label">Total Projects</p>
+              <h3 className="metric-value">{statusCounts.all}</h3>
+              <span className="metric-change">All projects</span>
+            </div>
+          </div>
+          
+          <div className="metric-card">
+            <div className="metric-icon" style={{ background: '#e1f5fe', color: '#2196f3' }}>
+              <Clock size={24} />
+            </div>
+            <div className="metric-content">
+              <p className="metric-label">Planning</p>
+              <h3 className="metric-value">{statusCounts.planning}</h3>
+              <span className="metric-change">In planning phase</span>
+            </div>
+          </div>
+          
+          <div className="metric-card">
+            <div className="metric-icon" style={{ background: '#fff3e0', color: '#ff9800' }}>
+              <AlertCircle size={24} />
+            </div>
+            <div className="metric-content">
+              <p className="metric-label">Ongoing</p>
+              <h3 className="metric-value">{statusCounts.ongoing}</h3>
+              <span className="metric-change">Currently active</span>
+            </div>
+          </div>
+          
+          <div className="metric-card">
+            <div className="metric-icon" style={{ background: '#e8f5e9', color: '#4caf50' }}>
+              <CheckCircle size={24} />
+            </div>
+            <div className="metric-content">
+              <p className="metric-label">Completed</p>
+              <h3 className="metric-value">{statusCounts.completed}</h3>
+              <span className="metric-change">Successfully done</span>
+            </div>
+          </div>
+          
+          <div className="metric-card">
+            <div className="metric-icon" style={{ background: '#ffebee', color: '#f44336' }}>
+              <Pause size={24} />
+            </div>
+            <div className="metric-content">
+              <p className="metric-label">On Hold</p>
+              <h3 className="metric-value">{statusCounts['on-hold']}</h3>
+              <span className="metric-change">Temporarily paused</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search and Filter Bar */}
+      <div className="search-filter-bar">
+        <div className="search-input-modern">
+          <Search size={18} />
           <input
             type="text"
             placeholder="Search projects by name or client..."
@@ -182,9 +225,13 @@ const Projects = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="filter-group">
-          <Filter size={20} />
-          <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+        <div className="filter-actions">
+          <select 
+            className="filter-btn"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            style={{ padding: '10px 16px', cursor: 'pointer' }}
+          >
             <option value="all">All Status</option>
             <option value="planning">Planning</option>
             <option value="ongoing">Ongoing</option>

@@ -126,43 +126,77 @@ const Services = () => {
   };
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <div>
-          <h1>
-            <Wrench size={32} />
-            Service Management
-          </h1>
-          <p className="page-subtitle">Track after-sales service requests</p>
+    <div className="modern-page-container">
+      {/* Header Section */}
+      <div className="modern-header">
+        <div className="header-left">
+          <div className="page-icon">
+            <Wrench size={24} />
+          </div>
+          <div>
+            <h1>Service Management</h1>
+            <p className="subtitle">Track after-sales service requests</p>
+          </div>
         </div>
-        <button className="primary-btn" onClick={() => setShowModal(true)}>
-          <Plus size={20} />
-          New Service Request
-        </button>
-      </div>
-
-      <div className="stats-row">
-        <div className="stat-box" style={{ borderLeftColor: '#1a237e' }}>
-          <h3>{stats.total}</h3>
-          <p>Total Requests</p>
-        </div>
-        <div className="stat-box" style={{ borderLeftColor: '#ff9800' }}>
-          <h3>{stats.pending}</h3>
-          <p>Pending</p>
-        </div>
-        <div className="stat-box" style={{ borderLeftColor: '#2196f3' }}>
-          <h3>{stats.inProgress}</h3>
-          <p>In Progress</p>
-        </div>
-        <div className="stat-box" style={{ borderLeftColor: '#4caf50' }}>
-          <h3>{stats.completed}</h3>
-          <p>Completed</p>
+        <div className="header-actions">
+          <button className="btn-primary-modern" onClick={() => setShowModal(true)}>
+            <Plus size={18} />
+            New Service Request
+          </button>
         </div>
       </div>
 
-      <div className="filters-section">
-        <div className="search-box">
-          <Search size={20} />
+      {/* Stats Cards */}
+      <div className="metrics-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: '32px' }}>
+        <div className="metric-card">
+          <div className="metric-icon" style={{ background: '#e3f2fd', color: '#1a237e' }}>
+            <Wrench size={24} />
+          </div>
+          <div className="metric-content">
+            <p className="metric-label">Total Requests</p>
+            <h3 className="metric-value">{stats.total}</h3>
+            <span className="metric-change">All service requests</span>
+          </div>
+        </div>
+        
+        <div className="metric-card">
+          <div className="metric-icon" style={{ background: '#fff3e0', color: '#ff9800' }}>
+            <Wrench size={24} />
+          </div>
+          <div className="metric-content">
+            <p className="metric-label">Pending</p>
+            <h3 className="metric-value">{stats.pending}</h3>
+            <span className="metric-change">Awaiting action</span>
+          </div>
+        </div>
+        
+        <div className="metric-card">
+          <div className="metric-icon" style={{ background: '#e1f5fe', color: '#2196f3' }}>
+            <Wrench size={24} />
+          </div>
+          <div className="metric-content">
+            <p className="metric-label">In Progress</p>
+            <h3 className="metric-value">{stats.inProgress}</h3>
+            <span className="metric-change">Currently working</span>
+          </div>
+        </div>
+        
+        <div className="metric-card">
+          <div className="metric-icon" style={{ background: '#e8f5e9', color: '#4caf50' }}>
+            <Wrench size={24} />
+          </div>
+          <div className="metric-content">
+            <p className="metric-label">Completed</p>
+            <h3 className="metric-value">{stats.completed}</h3>
+            <span className="metric-change">Successfully done</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Search and Filter Bar */}
+      <div className="search-filter-bar">
+        <div className="search-input-modern">
+          <Search size={18} />
           <input
             type="text"
             placeholder="Search service requests..."
@@ -170,10 +204,12 @@ const Services = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="filter-group">
+        <div className="filter-actions">
           <select 
+            className="filter-btn"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
+            style={{ padding: '10px 16px', cursor: 'pointer' }}
           >
             <option value="All">All Status</option>
             <option value="Pending">Pending</option>
@@ -183,8 +219,9 @@ const Services = () => {
         </div>
       </div>
 
-      <div className="card">
-        <table className="data-table">
+      {/* Modern Table */}
+      <div className="modern-table-container">
+        <table className="modern-table">
           <thead>
             <tr>
               <th>Customer</th>
@@ -200,37 +237,37 @@ const Services = () => {
           <tbody>
             {filteredServices.map(service => (
               <tr key={service.id}>
-                <td><strong>{service.customer}</strong></td>
-                <td>
+                <td data-label="Customer"><strong>{service.customer}</strong></td>
+                <td data-label="Equipment">
                   <div className="product-cell">
                     <Wrench size={18} />
                     <span>{service.equipment}</span>
                   </div>
                 </td>
-                <td>{service.issue}</td>
-                <td>
+                <td data-label="Issue">{service.issue}</td>
+                <td data-label="Engineer">
                   <div className="product-cell">
                     <User size={18} />
                     <span>{service.engineer || 'Unassigned'}</span>
                   </div>
                 </td>
-                <td>{service.date}</td>
-                <td>
-                  <span className={`badge ${service.priority === 'High' ? 'badge-danger' : service.priority === 'Medium' ? 'badge-warning' : 'badge-info'}`}>
+                <td data-label="Date">{service.date}</td>
+                <td data-label="Priority">
+                  <span className={`status-pill ${service.priority === 'High' ? 'status-danger' : service.priority === 'Medium' ? 'status-warning' : 'status-info'}`}>
                     {service.priority}
                   </span>
                 </td>
-                <td>
-                  <span className={`badge ${getStatusClass(service.status)}`}>
+                <td data-label="Status">
+                  <span className={`status-pill ${service.status === 'Completed' ? 'status-success' : service.status === 'In Progress' ? 'status-info' : 'status-warning'}`}>
                     {service.status}
                   </span>
                 </td>
-                <td>
-                  <div className="action-buttons">
-                    <button className="btn-icon" onClick={() => handleEdit(service)}>
+                <td data-label="Actions">
+                  <div className="action-buttons-modern">
+                    <button className="action-icon-btn edit" onClick={() => handleEdit(service)} title="Edit">
                       <Edit2 size={16} />
                     </button>
-                    <button className="btn-icon btn-danger" onClick={() => handleDelete(service.id)}>
+                    <button className="action-icon-btn delete" onClick={() => handleDelete(service.id)} title="Delete">
                       <Trash2 size={16} />
                     </button>
                   </div>
@@ -239,15 +276,15 @@ const Services = () => {
             ))}
           </tbody>
         </table>
-      </div>
 
-      {filteredServices.length === 0 && (
-        <div className="empty-state">
-          <Wrench size={64} />
-          <h3>No service requests found</h3>
-          <p>Create your first service request to get started</p>
-        </div>
-      )}
+        {filteredServices.length === 0 && (
+          <div className="empty-state-modern">
+            <Wrench size={64} />
+            <h3>No service requests found</h3>
+            <p>Create your first service request to get started</p>
+          </div>
+        )}
+      </div>
 
       {showModal && (
         <div className="modal-overlay" onClick={resetForm}>

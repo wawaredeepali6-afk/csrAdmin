@@ -9,12 +9,15 @@ const Gallery = () => {
   const [images, setImages] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [newImage, setNewImage] = useState({
     title: '',
     description: '',
     category: 'products',
     file: null
   });
+
+  const categories = ['All', 'Products', 'Projects', 'Facilities', 'Team'];
 
   useEffect(() => {
     const galleryRef = ref(database, 'gallery');
@@ -101,8 +104,55 @@ const Gallery = () => {
         </button>
       </div>
 
+      {/* Category Filter */}
+      <div className="category-filter scroll-reveal revealed" style={{ 
+        display: 'flex', 
+        gap: '12px', 
+        marginBottom: '24px',
+        flexWrap: 'wrap',
+        padding: '20px',
+        background: 'white',
+        borderRadius: '12px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+      }}>
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            style={{
+              padding: '10px 24px',
+              border: selectedCategory === cat ? '2px solid #1a237e' : '1px solid #e0e0e0',
+              background: selectedCategory === cat ? '#1a237e' : 'white',
+              color: selectedCategory === cat ? 'white' : '#666',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: selectedCategory === cat ? '600' : '500',
+              transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+          >
+            {cat}
+            <span style={{
+              background: selectedCategory === cat ? 'rgba(255,255,255,0.2)' : '#f5f5f5',
+              padding: '2px 8px',
+              borderRadius: '12px',
+              fontSize: '12px'
+            }}>
+              {cat === 'All' 
+                ? images.length 
+                : images.filter(img => img.category.toLowerCase() === cat.toLowerCase()).length}
+            </span>
+          </button>
+        ))}
+      </div>
+
       <div className="gallery-grid">
-        {images.map((image) => (
+        {images
+          .filter(image => selectedCategory === 'All' || image.category.toLowerCase() === selectedCategory.toLowerCase())
+          .map((image) => (
           <div key={image.id} className="gallery-item">
             <img src={image.imageUrl} alt={image.title} />
             <div className="gallery-overlay">
@@ -117,11 +167,11 @@ const Gallery = () => {
         ))}
       </div>
 
-      {images.length === 0 && (
+      {images.filter(image => selectedCategory === 'All' || image.category.toLowerCase() === selectedCategory.toLowerCase()).length === 0 && (
         <div className="empty-state">
           <Image size={64} />
-          <h3>No images yet</h3>
-          <p>Upload your first image to get started</p>
+          <h3>No images in this category</h3>
+          <p>{selectedCategory === 'All' ? 'Upload your first image to get started' : `No images found in ${selectedCategory} category`}</p>
         </div>
       )}
 

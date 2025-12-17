@@ -118,39 +118,66 @@ const Clients = () => {
   );
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <div>
-          <h1>
-            <Building2 size={32} />
-            Clients Management
-          </h1>
-          <p className="page-subtitle">Manage your client database</p>
+    <div className="modern-page-container">
+      {/* Header Section */}
+      <div className="modern-header">
+        <div className="header-left">
+          <div className="page-icon">
+            <Building2 size={24} />
+          </div>
+          <div>
+            <h1>Clients Management</h1>
+            <p className="subtitle">Manage your client database</p>
+          </div>
         </div>
-        <button className="primary-btn" onClick={() => setShowModal(true)}>
-          <Plus size={20} />
-          Add Client
-        </button>
-      </div>
-
-      <div className="stats-row">
-        <div className="stat-box" style={{ borderLeftColor: '#1a237e' }}>
-          <h3>{clients.length}</h3>
-          <p>Total Clients</p>
-        </div>
-        <div className="stat-box" style={{ borderLeftColor: '#4caf50' }}>
-          <h3>{clients.filter(c => c.status === 'active').length}</h3>
-          <p>Active Clients</p>
-        </div>
-        <div className="stat-box" style={{ borderLeftColor: '#ff9800' }}>
-          <h3>{clients.reduce((sum, c) => sum + (c.projectsCompleted || 0), 0)}</h3>
-          <p>Total Projects</p>
+        <div className="header-actions">
+          <button className="btn-primary-modern" onClick={() => setShowModal(true)}>
+            <Plus size={18} />
+            Add Client
+          </button>
         </div>
       </div>
 
-      <div className="filters-section">
-        <div className="search-box">
-          <Search size={20} />
+      {/* Stats Cards */}
+      <div className="metrics-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: '32px' }}>
+        <div className="metric-card">
+          <div className="metric-icon" style={{ background: '#e3f2fd', color: '#1a237e' }}>
+            <Building2 size={24} />
+          </div>
+          <div className="metric-content">
+            <p className="metric-label">Total Clients</p>
+            <h3 className="metric-value">{clients.length}</h3>
+            <span className="metric-change">All registered clients</span>
+          </div>
+        </div>
+        
+        <div className="metric-card">
+          <div className="metric-icon" style={{ background: '#e8f5e9', color: '#4caf50' }}>
+            <Building2 size={24} />
+          </div>
+          <div className="metric-content">
+            <p className="metric-label">Active Clients</p>
+            <h3 className="metric-value">{clients.filter(c => c.status === 'active').length}</h3>
+            <span className="metric-change">Currently active</span>
+          </div>
+        </div>
+        
+        <div className="metric-card">
+          <div className="metric-icon" style={{ background: '#fff3e0', color: '#ff9800' }}>
+            <Building2 size={24} />
+          </div>
+          <div className="metric-content">
+            <p className="metric-label">Total Projects</p>
+            <h3 className="metric-value">{clients.reduce((sum, c) => sum + (c.projectsCompleted || 0), 0)}</h3>
+            <span className="metric-change">Projects completed</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Search Bar */}
+      <div className="search-filter-bar">
+        <div className="search-input-modern">
+          <Search size={18} />
           <input
             type="text"
             placeholder="Search clients by name, industry, or location..."
@@ -160,8 +187,9 @@ const Clients = () => {
         </div>
       </div>
 
-      <div className="card">
-        <table className="data-table">
+      {/* Modern Table */}
+      <div className="modern-table-container">
+        <table className="modern-table">
           <thead>
             <tr>
               <th>Client Name</th>
@@ -178,24 +206,24 @@ const Clients = () => {
           <tbody>
             {filteredClients.map((client) => (
               <tr key={client.id}>
-                <td><strong>{client.name}</strong></td>
-                <td>{client.industry}</td>
-                <td>{client.location}</td>
-                <td>{client.contactPerson}</td>
-                <td>{client.email}</td>
-                <td>{client.phone}</td>
-                <td>{client.projectsCompleted}</td>
-                <td>
-                  <span className={`badge ${client.status === 'active' ? 'badge-success' : 'badge-warning'}`}>
+                <td data-label="Client Name"><strong>{client.name}</strong></td>
+                <td data-label="Industry">{client.industry}</td>
+                <td data-label="Location">{client.location}</td>
+                <td data-label="Contact Person">{client.contactPerson}</td>
+                <td data-label="Email">{client.email}</td>
+                <td data-label="Phone">{client.phone}</td>
+                <td data-label="Projects">{client.projectsCompleted}</td>
+                <td data-label="Status">
+                  <span className={`status-pill ${client.status === 'active' ? 'status-success' : 'status-warning'}`}>
                     {client.status}
                   </span>
                 </td>
-                <td>
-                  <div className="action-buttons">
-                    <button className="btn-icon" onClick={() => handleEdit(client)}>
+                <td data-label="Actions">
+                  <div className="action-buttons-modern">
+                    <button className="action-icon-btn edit" onClick={() => handleEdit(client)} title="Edit">
                       <Edit2 size={16} />
                     </button>
-                    <button className="btn-icon btn-danger" onClick={() => handleDelete(client.id)}>
+                    <button className="action-icon-btn delete" onClick={() => handleDelete(client.id)} title="Delete">
                       <Trash2 size={16} />
                     </button>
                   </div>
@@ -204,15 +232,15 @@ const Clients = () => {
             ))}
           </tbody>
         </table>
-      </div>
 
-      {filteredClients.length === 0 && (
-        <div className="empty-state">
-          <Building2 size={64} />
-          <h3>No clients found</h3>
-          <p>Add your first client to get started</p>
-        </div>
-      )}
+        {filteredClients.length === 0 && (
+          <div className="empty-state-modern">
+            <Building2 size={64} />
+            <h3>No clients found</h3>
+            <p>Add your first client to get started</p>
+          </div>
+        )}
+      </div>
 
       {showModal && (
         <div className="modal-overlay" onClick={resetForm}>

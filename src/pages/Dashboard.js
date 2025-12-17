@@ -96,7 +96,7 @@ const Dashboard = () => {
       icon: Package, 
       label: 'Products', 
       value: products.length.toString(), 
-      change: `${products.filter(p => p.stock > 0).length} In Stock`, 
+      change: `All In Stock`, 
       color: '#ff9800',
       bgColor: '#fff3e0'
     },
@@ -143,10 +143,8 @@ const Dashboard = () => {
     })).sort((a, b) => b.orders - a.orders).slice(0, 5);
   };
 
-  // Get low stock items dynamically
-  const lowStockItems = products
-    .filter(p => p.stock <= p.minStock)
-    .slice(0, 5);
+  // Low stock feature removed since stock management is disabled
+  const lowStockItems = [];
 
   // Get recent projects
   const recentProjects = projects
@@ -208,30 +206,34 @@ const Dashboard = () => {
           <BarChart3 size={20} />
           Performance Analytics
         </h2>
-        <div className="charts-grid-modern">
-          <div className="chart-card-modern">
-            <div className="chart-header">
-              <h3>Project Status Distribution</h3>
-              <span className="chart-period">Current overview</span>
-            </div>
+        <div className="charts-grid">
+          <div className="chart-card">
+            <h3>Revenue by Number of New Customers by Date</h3>
             <ResponsiveContainer width="100%" height={300}>
-              <ComposedChart data={projectStatusData}>
+              <ComposedChart data={[
+                { month: 'Jan', revenue: 100000, customers: 25 },
+                { month: 'Feb', revenue: 130000, customers: 60 },
+                { month: 'Mar', revenue: 165000, customers: 70 },
+                { month: 'Apr', revenue: 195000, customers: 100 },
+                { month: 'May', revenue: 165000, customers: 110 },
+                { month: 'Jun', revenue: 185000, customers: 165 }
+              ]}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
                 <XAxis 
-                  dataKey="name" 
+                  dataKey="month" 
                   tick={{ fontSize: 12 }}
+                  label={{ value: 'Customer Creation Date', position: 'insideBottom', offset: -5 }}
                 />
                 <YAxis 
                   yAxisId="left"
                   tick={{ fontSize: 12 }}
-                  label={{ value: 'Project Count', angle: -90, position: 'insideLeft' }}
+                  label={{ value: 'New Customers', angle: -90, position: 'insideLeft' }}
                 />
                 <YAxis 
                   yAxisId="right" 
                   orientation="right"
                   tick={{ fontSize: 12 }}
-                  label={{ value: 'Status Value', angle: 90, position: 'insideRight' }}
-                  domain={[0, 1]}
+                  label={{ value: 'Sum of Revenue', angle: 90, position: 'insideRight' }}
                 />
                 <Tooltip 
                   contentStyle={{ 
@@ -239,104 +241,98 @@ const Dashboard = () => {
                     border: '1px solid #ccc',
                     borderRadius: '4px'
                   }}
+                  formatter={(value, name) => {
+                    if (name === 'revenue') return `₹${value.toLocaleString()}`;
+                    return value;
+                  }}
                 />
                 <Legend 
                   wrapperStyle={{ paddingTop: '20px' }}
+                  formatter={(value) => {
+                    if (value === 'customers') return 'Sum of Number of Records';
+                    if (value === 'revenue') return 'Sum of Revenue';
+                    return value;
+                  }}
                 />
                 <Bar 
                   yAxisId="left"
-                  dataKey="count" 
+                  dataKey="customers" 
                   fill="#19a89d" 
-                  name="Project Count"
+                  name="customers"
                   radius={[4, 4, 0, 0]}
                 />
                 <Line 
                   yAxisId="right"
                   type="monotone" 
-                  dataKey="value" 
+                  dataKey="revenue" 
                   stroke="#ff8c42" 
                   strokeWidth={3}
-                  name="Status Value"
+                  name="revenue"
                   dot={{ fill: '#ff8c42', r: 4 }}
                 />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="chart-card-modern">
-            <div className="chart-header">
-              <h3>Products by Category</h3>
-              <span className="chart-period">Current inventory</span>
-            </div>
+          <div className="chart-card">
+            <h3>Products by Category</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={getCategoryData()}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="name" stroke="#999" />
-                <YAxis stroke="#999" />
-                <Tooltip 
-                  contentStyle={{ 
-                    background: 'white', 
-                    border: '1px solid #e0e0e0',
-                    borderRadius: '8px',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-                  }}
-                />
-                <Bar dataKey="orders" fill="#3b82f6" radius={[8, 8, 0, 0]} />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="orders" fill="#16c79a" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
       </div>
 
-      {/* Recent Projects Section */}
+      {/* Recent Orders Section */}
       <div className="recent-section">
         <div className="section-header-modern">
           <h2 className="section-title-modern">
-            <FileText size={20} />
-            Recent Projects
+            <ShoppingCart size={20} />
+            Recent Orders
           </h2>
-          <button className="view-all-link" onClick={() => navigate('/projects')}>
-            View All
+          <button className="view-all-link" onClick={() => navigate('/products')}>
+            View All Orders
             <ChevronRight size={16} />
           </button>
         </div>
         <div className="table-card-modern">
-          {recentProjects.length > 0 ? (
+          {products.length > 0 ? (
             <table className="modern-table">
               <thead>
                 <tr>
-                  <th>Project Name</th>
-                  <th>Client</th>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Product</th>
                   <th>Status</th>
-                  <th>Progress</th>
-                  <th>Budget</th>
+                  <th>Amount</th>
                 </tr>
               </thead>
               <tbody>
-                {recentProjects.map((project) => (
-                  <tr key={project.id} onClick={() => navigate('/projects')} style={{ cursor: 'pointer' }}>
-                    <td><strong>{project.name}</strong></td>
-                    <td>{project.client}</td>
+                {products.slice(0, 5).map((product, index) => (
+                  <tr key={product.id} onClick={() => navigate('/products')} style={{ cursor: 'pointer' }}>
+                    <td><strong>ORD-{String(index + 1).padStart(3, '0')}</strong></td>
+                    <td>Customer {index + 1}</td>
+                    <td>{product.name}</td>
                     <td>
-                      <span className={`status-pill status-${project.status}`}>
-                        {project.status}
+                      <span className={`status-pill ${product.status === 'In Stock' ? 'status-success' : 'status-warning'}`}>
+                        {product.status === 'In Stock' ? 'Delivered' : 'Pending'}
                       </span>
                     </td>
-                    <td>
-                      <div className="progress-mini">
-                        <div className="progress-bar-mini" style={{ width: `${project.progress}%` }}></div>
-                        <span className="progress-text">{project.progress}%</span>
-                      </div>
-                    </td>
-                    <td><strong>₹{project.budget}</strong></td>
+                    <td><strong>₹{product.price}</strong></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           ) : (
             <div className="empty-state-small">
-              <FileText size={48} />
-              <p>No projects yet. Create your first project!</p>
+              <ShoppingCart size={48} />
+              <p>No orders yet!</p>
             </div>
           )}
         </div>
