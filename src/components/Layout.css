@@ -433,6 +433,62 @@
   text-transform: uppercase;
 }
 
+.gallery-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-actions {
+  opacity: 1;
+}
+
+.gallery-edit-btn,
+.gallery-delete-btn {
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-edit-btn {
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+  flex: 1;
+}
+
+.gallery-edit-btn:hover {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+}
+
+.gallery-delete-btn {
+  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+  flex: 1;
+}
+
+.gallery-delete-btn:hover {
+  background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+}
+
+.gallery-edit-btn:active,
+.gallery-delete-btn:active {
+  transform: translateY(0);
+}
+
+/* Old delete button style - keeping for backward compatibility */
 .delete-btn {
   position: absolute;
   top: 12px;

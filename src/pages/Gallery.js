@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Plus, Trash2, Upload, X } from 'lucide-react';
+import { Image, Plus, Trash2, Upload, X, Edit2 } from 'lucide-react';
 import { database, storage } from '../firebase';
-import { ref, push, onValue, remove } from 'firebase/database';
+import { ref, push, onValue, remove, update } from 'firebase/database';
 import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import './Common.css';
 
@@ -10,6 +10,7 @@ const Gallery = () => {
   const [showModal, setShowModal] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [editingImage, setEditingImage] = useState(null);
   const [newImage, setNewImage] = useState({
     title: '',
     description: '',
@@ -41,31 +42,78 @@ const Gallery = () => {
     }
   };
 
+  const handleEdit = (image) => {
+    setEditingImage(image);
+    setNewImage({
+      title: image.title,
+      description: image.description,
+      category: image.category,
+      file: null
+    });
+    setShowModal(true);
+  };
+
   const handleUpload = async () => {
-    if (!newImage.file || !newImage.title) {
-      alert('Please provide title and select an image');
+    if (!newImage.title) {
+      alert('Please provide title');
+      return;
+    }
+
+    if (!editingImage && !newImage.file) {
+      alert('Please select an image');
       return;
     }
 
     setUploading(true);
     try {
-      const imageRef = storageRef(storage, `gallery/${Date.now()}_${newImage.file.name}`);
-      await uploadBytes(imageRef, newImage.file);
-      const imageUrl = await getDownloadURL(imageRef);
+      let imageUrl = editingImage?.imageUrl || '';
+      let storagePath = editingImage?.storagePath || '';
 
-      const galleryRef = ref(database, 'gallery');
-      await push(galleryRef, {
+      // Upload new image if file is selected
+      if (newImage.file) {
+        const imageRef = storageRef(storage, `gallery/${Date.now()}_${newImage.file.name}`);
+        await uploadBytes(imageRef, newImage.file);
+        imageUrl = await getDownloadURL(imageRef);
+        storagePath = imageRef.fullPath;
+
+        // Delete old image if editing
+        if (editingImage?.storagePath) {
+          try {
+            await deleteObject(storageRef(storage, editingImage.storagePath));
+          } catch (error) {
+            console.log('Old image already deleted or not found');
+          }
+        }
+      }
+
+      const imageData = {
         title: newImage.title,
         description: newImage.description,
         category: newImage.category,
         imageUrl: imageUrl,
-        storagePath: imageRef.fullPath,
-        uploadedAt: new Date().toISOString()
-      });
+        storagePath: storagePath
+      };
+
+      if (editingImage) {
+        // Update existing image
+        await update(ref(database, `gallery/${editingImage.id}`), {
+          ...imageData,
+          updatedAt: new Date().toISOString()
+        });
+        alert('Image updated successfully!');
+      } else {
+        // Add new image
+        const galleryRef = ref(database, 'gallery');
+        await push(galleryRef, {
+          ...imageData,
+          uploadedAt: new Date().toISOString()
+        });
+        alert('Image uploaded successfully!');
+      }
 
       setNewImage({ title: '', description: '', category: 'products', file: null });
+      setEditingImage(null);
       setShowModal(false);
-      alert('Image uploaded successfully!');
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Failed to upload image');
@@ -159,9 +207,21 @@ const Gallery = () => {
               <h3>{image.title}</h3>
               <p>{image.description}</p>
               <span className="gallery-category">{image.category}</span>
-              <button className="delete-btn" onClick={() => handleDelete(image)}>
-                <Trash2 size={16} />
-              </button>
+              <div className="gallery-actions">
+                <button 
+                  className="gallery-edit-btn" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(image);
+                  }}
+                  title="Edit Image"
+                >
+                  <Edit2 size={16} />
+                </button>
+                <button className="gallery-delete-btn" onClick={() => handleDelete(image)} title="Delete Image">
+                  <Trash2 size={16} />
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -176,11 +236,19 @@ const Gallery = () => {
       )}
 
       {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+        <div className="modal-overlay" onClick={() => {
+          setShowModal(false);
+          setEditingImage(null);
+          setNewImage({ title: '', description: '', category: 'products', file: null });
+        }}>
           <div className="modal-content-modern" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Upload New Image</h2>
-              <button onClick={() => setShowModal(false)} className="close-btn">
+              <h2>{editingImage ? 'Edit Image' : 'Upload New Image'}</h2>
+              <button onClick={() => {
+                setShowModal(false);
+                setEditingImage(null);
+                setNewImage({ title: '', description: '', category: 'products', file: null });
+              }} className="close-btn">
                 <X size={24} />
               </button>
             </div>
@@ -222,7 +290,7 @@ const Gallery = () => {
               </div>
               
               <div className="form-group-modern">
-                <label>Image File *</label>
+                <label>Image File {editingImage ? '(Optional - leave empty to keep current image)' : '*'}</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -232,17 +300,26 @@ const Gallery = () => {
                 {newImage.file && (
                   <p className="file-name">{newImage.file.name}</p>
                 )}
+                {editingImage && !newImage.file && (
+                  <p style={{ fontSize: '13px', color: '#666', marginTop: '8px' }}>
+                    Current image will be kept if no new file is selected
+                  </p>
+                )}
               </div>
               
               <div className="modal-footer-modern">
-                <button className="btn-cancel-modern" onClick={() => setShowModal(false)}>Cancel</button>
+                <button className="btn-cancel-modern" onClick={() => {
+                  setShowModal(false);
+                  setEditingImage(null);
+                  setNewImage({ title: '', description: '', category: 'products', file: null });
+                }}>Cancel</button>
                 <button
                   className="btn-submit-modern"
                   onClick={handleUpload}
                   disabled={uploading}
                 >
-                  <Upload size={18} />
-                  {uploading ? 'Uploading...' : 'Upload Image'}
+                  {editingImage ? <Edit2 size={18} /> : <Upload size={18} />}
+                  {uploading ? (editingImage ? 'Updating...' : 'Uploading...') : (editingImage ? 'Update Image' : 'Upload Image')}
                 </button>
               </div>
             </div>
